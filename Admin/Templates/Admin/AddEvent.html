@@ -1,0 +1,153 @@
+{% extends 'Admin/Header.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Events</title>
+    <style>
+        body {
+            background-color: #f5f1e3;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 0;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .event-form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .btn-submit {
+            display: block;
+            background: #3498db;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .btn-submit:hover {
+            background: #2980b9;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .event-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+
+        .event-details {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+            padding: 8px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="page-title">Add New Event</h2>
+        <div class="event-form">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="txtname" class="form-control" placeholder="Enter event name" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea name="txtdescription" rows="2" class="form-control" placeholder="Enter event description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Seat Count</label>
+                    <input type="number" name="txtpersoncount" class="form-control" placeholder="Enter seat count" required>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" name="txtdate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="text" name="txtprice" class="form-control" placeholder="Enter the price for each seat" required>
+                </div>
+                <button type="submit" class="btn-submit">Add Event</button>
+            </form>
+        </div>
+
+        <h2 class="page-title">Upcoming Events</h2>
+        <div class="events-grid">
+            {% for i in event %}
+            <div class="event-card">
+                <h3 class="event-title">{{ i.event_name }}</h3>
+                <p class="event-details"><strong>Description:</strong> {{ i.event_description }}</p>
+                <p class="event-details"><strong>Date:</strong> {{ i.event_todate }}</p>
+                <p class="event-details"><strong>Seats Available:</strong> {{ i.event_count }}</p>
+                <p class="event-details"><strong>Price:</strong> Rs{{ i.event_price }}</p>
+                <a href="{% url 'Admin:delevent' i.id %}" class="btn-danger">Delete</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

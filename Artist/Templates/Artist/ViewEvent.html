@@ -1,0 +1,157 @@
+{% extends 'Artist/header.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Events</title>
+</head>
+<body>
+    <style>
+        /* Page Background */
+        body {
+            background-color: #f5f1e3;
+            font-family: 'Poppins', sans-serif;
+        }
+    
+        /* Container */
+        .gallery-container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 0;
+        }
+    
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+    
+        /* Events Grid */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+    
+        /* Event Card */
+        .event-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            position: relative;
+        }
+    
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+    
+        /* Card Content */
+        .event-content {
+            padding: 20px;
+            text-align: center;
+        }
+    
+        /* Event Name */
+        .event-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+    
+        /* Event Description */
+        .event-description {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+    
+        /* Event Details */
+        .event-details {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+    
+        /* Price Tag */
+        .event-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+    
+        /* Book Button */
+        .book-btn {
+            display: block;
+            background: #3498db;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+            transition: background 0.3s ease-in-out;
+        }
+    
+        .book-btn:hover {
+            background: #2980b9;
+        }
+    
+        /* New Styles for Finished Events */
+        .event-card.finished {
+            background-color: #ffcccc; /* Red shade for finished events */
+            opacity: 0.6; /* Slight transparency for finished events */
+        }
+    
+        .book-btn:disabled {
+            background-color: #ddd;
+            cursor: not-allowed;
+        }
+    </style>
+    >
+
+    <div class="container gallery-container">
+        <h2 class="page-title">Upcoming Art Exhibitions</h2>
+        
+        <div class="events-grid">
+            {% for i in upcoming_events %}
+                <div class="event-card">
+                    <div class="event-content">
+                        <h3 class="event-title">{{ i.event_name }}</h3>
+                        <p class="event-description">{{ i.event_description }}</p>
+                        <p class="event-details"><strong>Date:</strong> {{ i.event_todate }}</p>
+                        <p class="event-details"><strong>Available Seats:</strong> {{ i.event_count }}</p>
+                        <p class="event-price">Rs: {{ i.event_price }}</p>
+                        <a href="{% url 'Artist:BookEvent' i.id %}" class="book-btn">Book Event</a>
+                    </div>
+                </div>
+            {% endfor %}
+
+            {% for i in finished_events %}
+                <div class="event-card finished">
+                    <div class="event-content">
+                        <h3 class="event-title">{{ i.event_name }}</h3>
+                        <p class="event-description">{{ i.event_description }}</p>
+                        <p class="event-details"><strong>Date:</strong> {{ i.event_todate }}</p>
+                        <p class="event-details"><strong>Available Seats:</strong> {{ i.event_count }}</p>
+                        <p class="event-price">Rs: {{ i.event_price }}</p>
+                        <p class="event-price">This event has expired</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+
+{% endblock %}

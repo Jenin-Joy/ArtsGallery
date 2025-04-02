@@ -1,0 +1,114 @@
+{% extends 'User/header.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artist Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Global Styling */
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Ensure header does not overlap content */
+        .profile-container {
+            max-width: 600px;
+            margin: auto;
+            margin-top: 100px; /* Push content below header */
+            padding: 40px 0;
+            position: relative;
+        }
+
+        /* Card Styling */
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Artist Image */
+        .card-img-top img {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 4px solid #0873bd;
+        }
+
+        /* Artist Details */
+        .card-body {
+            font-size: 16px;
+            color: #2c3e50;
+        }
+
+        /* Star Rating */
+        .star-rating i {
+            font-size: 18px;
+            margin: 2px;
+        }
+
+        /* Chat Button */
+        .chat-btn {
+            display: inline-block;
+            background: #0873bd;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .chat-btn:hover {
+            background: #065a92;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="profile-container">
+        <div class="card">
+            <div class="card-img-top">
+                <img src="{{artist.artist_photo.url}}" alt="Artist Photo">
+            </div>
+            <div class="card-body">
+                <p><strong>Name:</strong> {{artist.artist_name}}</p>
+                <p><strong>Email:</strong> {{artist.artist_email}}</p>
+                <p><strong>Contact:</strong> {{artist.artist_contact}}</p>
+                <div class="star-rating">
+                    {% for j in parry %}
+                    {% for k in ar %}
+                    {% if k <= j %} 
+                    <i class="fa-solid fa-star text-warning"></i>
+                    {% else %}
+                    <i class="fa-solid fa-star star-light"></i>
+                    {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+                </div>
+                <br>
+                <a href="{% url 'User:chatpage' artist.id %}" class="chat-btn">Chat</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+{% endblock %}

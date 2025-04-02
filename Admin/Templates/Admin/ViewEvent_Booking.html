@@ -1,0 +1,55 @@
+{% extends 'Admin/Header.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .back{
+        background: linear-gradient(to right, #3498db, #e74c3c); 
+        color:  black;
+          }
+</style>
+<body>
+   <br>
+    <center><h1>View Event Booking</h1></center>
+    <table cellpadding="10" border="1" style="border-collapse: collapse;" align="center" class="table  table-bordered "><br><br>
+        <tr class="back">
+            <td >Booked Seat</td>
+            <td >Remain Seat</td>
+        </tr>
+        <tr>
+            <td>{{booking}}</td>
+            <td>{{remain}}</td>
+        </tr>
+    </table>
+    <table cellpadding="10" border="1" align="center" class="table table-bordered"><br><br>
+        <tr class="back">
+            <td>#</td>
+            <td>Date</td>
+            <td>Amount</td>
+            <td align="center">Action</td>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.booking_date}}</td>
+            <td>{{i.booking_totalamount}}</td>
+            <td>
+            {% if i.booking_status == 1 %}
+            Payed 
+            {% elif i.booking_status == 2 %}
+            Booking Cancelled
+            {% else %}
+            Not Payed 
+            {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
+{% endblock %}

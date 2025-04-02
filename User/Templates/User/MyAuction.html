@@ -1,0 +1,134 @@
+{% extends 'User/header.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auction Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .heading {
+            color: black;
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+
+        td img {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        td a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            border: 1px solid #4CAF50;
+            transition: background-color 0.3s ease;
+        }
+
+        td a:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .status-completed {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            color: #f44336;
+            font-weight: bold;
+        }
+
+        .no-auction {
+            color: #f44336;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="heading">Auction Details</h1>
+
+    <table cellpadding="10">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Work</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>Artist</th>
+                <th>Bid Amount</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in auction %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td><img src="{{ i.auction.artwork.artwork_photo.url }}" width="100" height="100" alt="Artwork"></td>
+                <td>{{ i.auction.auctionhead_amount }}</td>
+                <td>{{ i.auction.auctionhead_todate }}</td>
+                <td>{{ i.auction.auction_starttime }}</td>
+                <td>{{ i.auction.artwork.artist.artist_name }}</td>
+                <td>{{ i.auctionbody_amount }}</td>
+                <td>
+                    {% if i.auction.auctionhead_status == 3 %}
+                        <span class="status-completed">Payment Completed</span>
+                    {% else %}
+                        <span class="status-pending">Auction Completed</span> |
+                        <a href="{% url 'User:auctionpayment' i.id %}">Payment</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8" class="no-auction">No auctions available at the moment.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
+{% endblock %}

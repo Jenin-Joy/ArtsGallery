@@ -1,0 +1,160 @@
+{% extends 'User/header.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Booking</title>
+    <style>
+        /* Global Styling */
+        body {
+            background-color: #f4f4f4;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Container */
+        .booking-container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 40px 0;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        /* Card Styling */
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease-in-out;
+            justify-content: space-between;
+
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Artwork Image */
+        .artwork-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 15px;
+        }
+
+        /* Booking Details */
+        .booking-details {
+            flex-grow: 1;
+        }
+
+        .booking-details h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .booking-details p {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 3px;
+        }
+
+        /* Payment Button */
+        .pay-btn {
+            background: #ff6b6b;
+            color: white;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .pay-btn:hover {
+            background: #e63946;
+        }
+
+        /* Event Booking Section */
+        .event-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container booking-container">
+    <!-- My Artwork Booking Section -->
+    <h2 class="page-title">My Artwork Booking</h2>
+    
+    {% for i in booking %}
+    <div class="card">
+        
+        <div class="booking-details">
+            <h3>{{ i.artwork.artist.artist_name }}</h3>
+            <p><strong>Date:</strong> {{ i.booking_date }}</p>
+            <p><strong>Status:</strong> 
+                {% if i.booking_status == 1 %}
+                    <span style="color: green;">Paid</span>
+                {% elif i.booking_status == 2 %}
+                    <span class="status paid">Order Packed</span>
+                {% elif i.booking_status == 3 %}
+                    <span class="status paid">Order Collected</span>
+                {% elif i.booking_status == 4 %}
+                    <span class="status paid">Order Completed</span> | <a href="{% url 'User:rating' i.artwork.artist.id %}">Give Rating</a>
+                {% else %}
+                    <a href="{% url 'User:payment' i.id %}" class="pay-btn">Pay Now</a>
+                {% endif %}
+            </p>
+        </div>
+        <img src="{{ i.artwork.artwork_photo.url }}" class="artwork-img" alt="Artwork Image">
+    </div>
+    {% endfor %}
+
+    <!-- Event Booking Section -->
+    <h2 class="page-title">View Event Booking</h2>
+    
+    {% for i in data %}
+    <div class="event-card">
+        <div class="booking-details">
+            <h3>Event Date: {{ i.booking_date }}</h3>
+            <p><strong>Amount:</strong> Rs: {{ i.booking_totalamount }}</p>
+            <p><strong>Status:</strong> 
+                {% if i.booking_status == 1 %}
+                    <span style="color: green;">Paid</span> | <a href="{% url 'User:tickets' i.id %}">View Tickets</a>
+                {% elif i.booking_status == 2 %}
+                    <span style="color: red;">Booking Cancelled</span>
+                {% else %}
+                    <span style="color: orange;">Not Paid</span> | <a href="{% url 'User:ticketpayment' i.id %}" class="pay-btn">Make Payment</a>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>
+{% endblock %}

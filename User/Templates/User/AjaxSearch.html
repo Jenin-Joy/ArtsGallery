@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+</head>
+<body>
+<div class="container">
+    <br><br>
+    <h2>Artworks</h2>
+    <br><br>
+
+    <div class="row" id="result">
+        {% for i in artwork %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <!-- Artwork Image -->
+                <img src="{{i.artwork_photo.url}}" class="card-img-top" alt="{{i.artwork_name}}">
+                <div class="card-body">
+                    <!-- Artwork Details -->
+                    <h5 class="card-title">{{forloop.counter}}. {{i.artwork_name}}</h5>
+                    <p class="card-text">
+                        <strong>Price:</strong> {{i.artwork_price}}<br>
+                        <strong>Description:</strong> {{i.artwork_description}}<br>
+                        <strong>Artist Name:</strong> {{i.artist.artist_name}}<br>
+                        <strong>Category:</strong> {{i.category.category_name}}
+                    </p>
+                    <!-- Action Buttons -->
+                    <a href="{% url 'User:bookingartwork' i.id %}" class="btn btn-outline-primary">Book</a>
+                    <a href="{% url 'User:artist' i.artist.id %}" class="btn btn-outline-primary">View Artist</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

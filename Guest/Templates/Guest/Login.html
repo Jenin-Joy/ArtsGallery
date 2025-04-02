@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - www.codingnepalweb.com -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link rel="stylesheet" href="{% static  'Login/style.css' %}">
+</head>
+<style>
+   .toggle-password {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #777;
+    }
+
+    .toggle-password:hover {
+        color: #333;
+    }
+</style>
+<body>
+  <div class="wrapper">
+    <form action="" method="POST">
+        {% csrf_token %}
+      <h2>Login</h2>
+        <div class="input-field">
+        <input type="email" name="txtemail"  required>
+        <label>Enter your email</label>
+      </div>
+      <div class="input-field">
+        <input type="password" name="pass" required>
+        <label>Enter your password</label>
+        <i class="fas fa-eye toggle-password" onclick="togglePassword('pass')"></i>
+      </div>
+      <div class="forget">
+        <label for="remember">
+          <!-- <input type="checkbox" id="remember"> -->
+          <!-- <p>Remember me</p> -->
+        </label>
+        <a href="{% url 'Guest:index' %}">Home</a>
+      </div>
+      <button type="submit" name="LOGIN">Log In</button>
+      <!-- <div class="register">
+        <p>Don't have an account? <a href="#">Register</a></p> -->
+      </div>
+    </form>
+  </div>
+</body>
+</html>
+{% if msg %}
+<script>
+    alert("{{ msg }}")
+</script>
+{% endif %}
+
+<script>
+  function togglePassword(id) {
+      var field = document.getElementById(id);
+      var icon = field.nextElementSibling;
+      if (field.type === "password") {
+          field.type = "text";
+          icon.classList.remove("fa-eye");
+          icon.classList.add("fa-eye-slash");
+      } else {
+          field.type = "password";
+          icon.classList.remove("fa-eye-slash");
+          icon.classList.add("fa-eye");
+      }
+  }
+</script>
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+</head>
+<body>
+    <center>
+        <h2>LOGIN</h2>
+        
+        <form action="" method="POST">
+         {% csrf_token %}
+        
+        <table border="5" >
+        <tr>
+         <td><p>Email</p></td>
+         <td><input type="email"  placeholder="Enter Email_id" name="txtemail" required></td>
+        </tr>
+        <tr>
+         <td><p class="center">Password</p></td>
+         <td><input type="password"  placeholder="Enter the password" name="pass" required></td>
+        </tr>
+        
+        <tr>
+         <td colspan="2" align="center">
+            <input type="submit"  name="LOGIN"  value="Login">
+        </td>
+        </tr>
+</table>
+</form>
+{% if msg %}
+<script>
+    alert("{{ msg }}")
+</script>
+{% endif %}
+</center>
+</body>
+</html> -->

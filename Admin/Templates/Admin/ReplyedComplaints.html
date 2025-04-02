@@ -1,0 +1,139 @@
+{% extends 'Admin/Header.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Replied Complaints</title>
+    <style>
+        /* General Styling */
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 40px 0;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        /* Complaint Grid */
+        .complaint-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .complaint-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .complaint-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .complaint-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 5px;
+        }
+
+        .complaint-content {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+
+        .complaint-date {
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .reply-content {
+            background: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #2c3e50;
+            margin-top: 10px;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2 class="page-title">User Replied Complaints</h2>
+
+        <div class="complaint-grid">
+            {% for i in replayedusercomplaint %}
+            <div class="complaint-card">
+                <h3 class="complaint-title">{{ i.complaint_title }}</h3>
+                <p class="complaint-content">{{ i.complaint_content }}</p>
+                <p class="complaint-date"><strong>Date:</strong> {{ i.complaint_date }}</p>
+                <p class="user-name"><strong>User:</strong> {{ i.user.user_name }}</p>
+                <p class="reply-content"><strong>Reply:</strong> {{ i.complaint_replay }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <br><br>
+
+        <h2 class="page-title">Artist Replied Complaints</h2>
+
+        <div class="complaint-grid">
+            {% for i in replayedartistcomplaint %}
+            <div class="complaint-card">
+                <h3 class="complaint-title">{{ i.complaint_title }}</h3>
+                <p class="complaint-content">{{ i.complaint_content }}</p>
+                <p class="complaint-date"><strong>Date:</strong> {{ i.complaint_date }}</p>
+                <p class="user-name"><strong>Artist:</strong> {{ i.artist.artist_name }}</p>
+                <p class="reply-content"><strong>Reply:</strong> {{ i.complaint_replay }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        <h2 class="page-title">Delivery Replied Complaints</h2>
+
+        <div class="complaint-grid">
+            {% for i in replayeddeliverycomplaint %}
+            <div class="complaint-card">
+                <h3 class="complaint-title">{{ i.complaint_title }}</h3>
+                <p class="complaint-content">{{ i.complaint_content }}</p>
+                <p class="complaint-date"><strong>Date:</strong> {{ i.complaint_date }}</p>
+                <p class="user-name"><strong>Artist:</strong> {{ i.artist.artist_name }}</p>
+                <p class="reply-content"><strong>Reply:</strong> {{ i.complaint_replay }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+{% endblock %}

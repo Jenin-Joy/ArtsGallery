@@ -1,0 +1,273 @@
+{% include 'User/Book_checking.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+<head>
+    <style>
+        /* From Uiverse.io by mRcOol7 */ 
+.Btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition-duration: 0.4s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to right, #3498db, #e74c3c);
+}
+
+.sign {
+  width: 100%;
+  transition-duration: 0.4s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign svg {
+  width: 17px;
+}
+
+.sign svg path {
+  fill: white;
+}
+
+.text {
+  position: absolute;
+  right: 0%;
+  width: 0%;
+  opacity: 0;
+  color: #ecf0f1;
+  font-size: 1.2em;
+  font-weight: 600;
+  transition-duration: 0.4s;
+}
+
+.Btn:hover {
+  width: 150px;
+  border-radius: 20px;
+  transition-duration: 0.4s;
+  background: linear-gradient(to right, #3498db, #e74c3c);
+}
+
+.Btn:hover .sign {
+  width: 30%;
+  transition-duration: 0.4s;
+  padding-left: 12px;
+}
+
+.Btn:hover .text {
+  opacity: 1;
+  width: 70%;
+  transition-duration: 0.4s;
+  padding-right: 10px;
+}
+
+.Btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
+}
+
+    </style>
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="{% static  'Main/img/fav.png' %} ">
+    <!-- Author Meta -->
+    <meta name="author" content="codepixer">
+    <!-- Meta Description -->
+    <meta name="description" content="">
+    <!-- Meta Keyword -->
+    <meta name="keywords" content="">
+    <!-- meta character set -->
+    <meta charset="UTF-8">
+    <!-- Site Title -->
+    <title>Art Gallery</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet"> 
+        <!--
+        CSS
+        ============================================= -->
+        <link rel="stylesheet" href="{% static  'Main/css/linearicons.css' %} ">
+        <link rel="stylesheet" href="{% static  'Main/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% static  'Main/css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static  'Main/css/magnific-popup.css' %}">
+        <link rel="stylesheet" href="{% static  'Main/css/nice-select.css' %}">					
+        <link rel="stylesheet" href="{% static  'Main/css/animate.min.css' %}">
+        <link rel="stylesheet" href="{% static  'Main/css/owl.carousel.css' %}">
+        <link rel="stylesheet" href="{% static  'Main/css/main.css' %}">
+    </head>
+    <body>
+
+          <header id="header" id="home">
+              <div class="container header-top">
+                  <div class="row">
+                      <div class="col-6 top-head-left">
+                          <ul>
+                              <li><a href="{% url 'Guest:Login' %}">Visit Us</a></li>
+                              <li><a href="{% url 'Guest:Login' %}">Buy Ticket</a></li>
+                          </ul>
+                      </div>
+                      <div class="col-6 top-head-right">
+                          <ul>
+                              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                            <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                          </ul>
+                      </div>			  			
+                  </div>
+              </div>
+              <hr>
+            <div class="container">
+                <div class="row align-items-center justify-content-between d-flex">
+                  <div id="logo">
+                    <a href="{% url 'Guest:index' %}"><img src="{% static  'Main/img/logo.png' %}" alt="" title="" /></a>
+                  </div>
+                  <nav id="nav-menu-container">
+                    <ul class="nav-menu">
+                      <li class="menu-active"><a href="{% url 'User:homepage' %}">Home</a></li>
+                      <!-- <li><a href="{% url 'Guest:about' %}">About</a></li>
+                      <li><a href="{% url 'Guest:gallery' %}">Gallery</a></li> -->
+                      <li><a href="{% url 'User:myprofile' %}"> Profile</a></li>
+                      <li><a href="{% url 'User:viewartwork' %}">Book Artwoks</a></li>
+                      <li><a href="{% url 'User:viewevent' %}"> Book Events</a></li>
+                      <li><a href="{% url 'User:mybooking' %}"> My Booking</a></li>
+                      <li class="menu-has-children"><a href="">Message</a>
+                        <ul>
+                            <li><a href="{% url 'User:usercomplaint' %}"> Give Complaints</a></li>
+                            <li><a href="{% url 'User:feedback' %}"> Give Feedbacks</a></li>
+                        </ul>
+                      </li>		
+                      <li class="menu-has-children"><a href="">Auction</a>
+                        <ul>
+                            <li><a href="{% url 'User:viewauctionlist' %}">View Auction</a></li>
+                            <li><a href="{% url 'User:myauction' %}">My Auction</a></li>
+                        </ul>
+                      </li>	
+                      <!-- <li><a href="{% url 'User:logout' %}">Logout</a></li> -->
+                       <!-- From Uiverse.io by mRcOol7 --> 
+                       <a href="{% url 'User:logout' %}">
+<button class="Btn">
+    <div class="sign">
+      <svg viewBox="0 0 512 512">
+        <path
+          d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"
+        ></path>
+      </svg>
+    </div>
+  
+    <div class="text">Logout</div>
+  </button></a>
+  
+                      <!-- <li><a href="{% static  'Main/blog-home.html' %}">Blog</a></li>
+                      <li><a href="{% static  'Main/contact.html' %}">Contact</a></li>
+                      <li class="menu-has-children"><a href="">Pages</a>
+                        <ul>
+                          <li><a href="{% static 'Main/blog-single.html' %}">Blog Single</a></li>
+                          <li><a href="{% static 'Main/category.html' %}">Category</a></li>
+                          <li><a href="{% static 'Main/elements.html' %}">Elements</a></li>
+                        </ul> -->
+                      </li>			          
+                    </ul>
+                  </nav><!-- #nav-menu-container -->		    		
+                </div>
+            </div>
+          </header><!-- #header -->
+          <section class="banner-area relative" id="home">	
+            <div class="overlay overlay-bg"></div>
+            <div class="container">
+                <div class="row d-flex align-items-center justify-content-center">
+                    <div class="about-content col-lg-12">
+                         <h1 class="text-white">
+                            Hello User				
+                        </h1>	
+                        <!-- <p class="text-white link-nav"><a href="{% url 'Guest:index' %}"></a>Home </a>  <span class="lnr lnr-arrow-right"></span>  <a href="{% url 'Guest:about' %}"> About Us</a></p> -->
+                    </div>											
+                </div>
+            </div>
+        </section> 
+
+
+<main class="main">
+
+          {% block content %}
+          {% endblock%}
+
+        </main>
+
+           <!-- start footer Area -->		
+        <footer class="footer-area section-gap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 col-md-6 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h6>About Us</h6>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore magna aliqua.
+                            </p>
+                            <p class="footer-text">
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> and distributed by <a href="https://themewagon.com" target="_blank">Libin Joseph</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-5  col-md-6 col-sm-6">
+                        <div class="single-footer-widget">
+                            <h6></h6>
+                            <p></p>
+                             <div class="" id="mc_embed_signup">
+                                <form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="form-inline">
+                                    <!-- <input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '" required="" type="email"> -->
+                                        <!-- <button class="click-btn btn btn-default"><span class="lnr lnr-arrow-right"></span></button> -->
+                                        <div style="position: absolute; left: -5000px;">
+                                            <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+                                        </div>
+
+                                    <div class="info"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>						
+                    <div class="col-lg-2 col-md-6 col-sm-6 social-widget">
+                        <div class="single-footer-widget">
+                            <h6>Follow Us</h6>
+                            <p>Let us be social</p>
+                            <div class="footer-social d-flex align-items-center">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-dribbble"></i></a>
+                                <a href="#"><i class="fa fa-behance"></i></a>
+                            </div>
+                        </div>
+                    </div>							
+                </div>
+            </div>
+        </footer>	   
+	
+
+        <script src="{% static  'Main/js/vendor/jquery-2.2.4.min.js' %}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="{%  static  'Main/js/vendor/bootstrap.min.js'  %}"></script>			
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
+          <script src="{% static  'Main/js/easing.min.js'  %}"></script>			
+        <script src="{% static  'Main/js/hoverIntent.js'  %}"></script>
+        <script src="{% static  'Main/js/superfish.min.js'  %}"></script>	
+        <script src="{% static  'Main/js/jquery.ajaxchimp.min.js'  %}"></script>
+        <script src="{% static  'Main/js/jquery.magnific-popup.min.js'  %}"></script>	
+        <script src="{% static  'Main/js/owl.carousel.min.js'  %}"></script>	
+        <script src="{% static  'Main/js/imagesloaded.pkgd.min.js'  %}"></script>
+        <script src="{% static  'Main/js/justified.min.js'  %}"></script>					
+        <script src="{% static  'Main/js/jquery.sticky.js'  %}"></script>
+        <script src="{% static  'Main/js/jquery.nice-select.min.js'  %}"></script>			
+        <script src="{% static  'Main/js/parallax.min.js'  %}"></script>		
+        <script src="{% static  'Main/js/mail-script.js'  %}"></script>	
+        <script src="{% static  'Main/js/main.js'  %}"></script>	
+    </body>
+</html>

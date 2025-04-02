@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Reset margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Set the body font and background */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+
+        /* Style the table */
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+            background-color: #fff;
+        }
+
+        /* Style table headers */
+        th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 15px;
+            text-align: left;
+            font-weight: normal;
+        }
+
+        /* Style table cells */
+        td {
+            padding: 10px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Hover effect for rows */
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Add a border radius to the table */
+        table {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Style the image inside the table */
+        td img {
+            border-radius: 5px;
+        }
+
+        /* Style for the Action column */
+        td:last-child {
+            font-weight: bold;
+            color: green;
+        }
+
+        /* Style for the Payment Completed text */
+        td:last-child::before {
+            content: "✔️ ";
+            margin-right: 5px;
+        }
+
+        /* Adjust the overall layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        /* Make the page responsive */
+        @media screen and (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+
+            td, th {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Auction Details</h1>
+        <table cellpadding="10">
+            <tr>
+                <th>#</th>
+                <th>Work</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>User</th>
+                <th>Total Amount</th>
+                <th>Action</th>
+            </tr>
+            {% for i in auction %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td><img src="{{i.artwork.artwork_photo.url}}" width="100" height="100" alt=""></td>
+                <td>{{i.auctionhead_amount}}</td>
+                <td>{{i.auctionhead_todate}}</td>
+                <td>{{i.auction_starttime}}</td>
+                <td>{{i.user}}</td>
+                <td>{{i.auction_totalamount}}</td>
+                <td>Payment Completed</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

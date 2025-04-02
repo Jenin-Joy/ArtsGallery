@@ -1,0 +1,150 @@
+{% extends 'Admin/Header.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Boy Verification</title>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 30px 0;
+        }
+        .page-title {
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease-in-out;
+            max-width: 800px;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .user-photo {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-right: 20px;
+            border: 3px solid #ccc;
+        }
+        .user-details {
+            flex-grow: 1;
+        }
+        .user-details h3 {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .user-details p {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        .btn-action {
+            background: #0873bd;
+            color: white;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+            text-align: center;
+            text-decoration: none;
+        }
+        .btn-action:hover {
+            background: #065a92;
+        }
+        .btn-danger {
+            background: #e74c3c;
+        }
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="page-title">Delivery Boy Verification</h2>
+
+    {% for i in delivery %}
+    {% if i.deliveryboy_status  == 0 %}
+    <div class="card">
+        <img src="{{ i.deliveryboy_photo.url }}" class="user-photo" alt="User Photo">
+        <div class="user-details">
+            <h3>{{ i.deliveryboy_name }}</h3>
+            <p><strong>Email:</strong> {{ i.deliveryboy_email }}</p>
+            <p><strong>Address:</strong> {{ i.deliveryboy_address }}</p>
+            <p><strong>Contact:</strong> {{ i.deliveryboy_contact }}</p>
+            <p><strong>Location:</strong> {{ i.place.place_name }}, {{ i.place.district.district_name }}</p><br>
+        </div>
+       <div> <a href="{% url 'Admin:deliveryaccept' i.id %}" class="btn-action">Accept</a> &nbsp;<a href="{% url 'Admin:deliveryreject' i.id %}" class="btn-action btn-danger">Reject</a></div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    <h2 class="page-title">Accepted Delivery Boys</h2>
+    {% for i in delivery %}
+    {% if i.deliveryboy_status == 1 %}
+    <div class="card">
+        <img src="{{ i.deliveryboy_photo.url }}" class="user-photo" alt="User Photo">
+        <div class="user-details">
+            <h3>{{ i.deliveryboy_name }}</h3>
+            <p><strong>Email:</strong> {{ i.deliveryboy_email }}</p>
+            <p><strong>Address:</strong> {{ i.deliveryboy_address }}</p>
+            <p><strong>Contact:</strong> {{ i.deliveryboy_contact }}</p>
+            <p><strong>Location:</strong> {{ i.place.place_name }}, {{ i.place.district.district_name }}</p>
+        </div>
+        <a href="{% url 'Admin:deliveryreject' i.id %}" class="btn-action btn-danger">Reject</a>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    <h2 class="page-title">Rejected Delivery Boys</h2>
+    {% for i in delivery %}
+    {% if i.deliveryboy_status == 2 %}
+    <div class="card">
+        <img src="{{ i.deliveryboy_photo.url }}" class="user-photo" alt="User Photo">
+        <div class="user-details">
+            <h3>{{ i.deliveryboy_name }}</h3>
+            <p><strong>Email:</strong> {{ i.deliveryboy_email }}</p>
+            <p><strong>Address:</strong> {{ i.deliveryboy_address }}</p>
+            <p><strong>Contact:</strong> {{ i.deliveryboy_contact }}</p>
+            <p><strong>Location:</strong> {{ i.place.place_name }}, {{ i.place.district.district_name }}</p>
+        </div>
+        <a href="{% url 'Admin:deliveryaccept' i.id %}" class="btn-action">Accept</a>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    
+</div>
+
+</body>
+</html>
+
+{% endblock %}

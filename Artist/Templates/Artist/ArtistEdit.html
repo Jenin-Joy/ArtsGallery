@@ -1,0 +1,118 @@
+{% extends  'Artist/header.html' %}
+{% block content %}
+<<!DOCTYPE html>
+<html lang="en">
+<head>         
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Global Styling */
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Ensure header does not overlap content */
+        .profile-container {
+            max-width: 600px;
+            margin: auto;
+            margin-top: 100px; /* Push content below header */
+            padding: 40px 0;
+            position: relative;
+        }
+
+        /* Card Styling */
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            background: #0873bd;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+            width: 100%;
+        }
+
+        .btn-submit:hover {
+            background: #065a92;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="profile-container">
+        <div class="card">
+            <h2>Edit Profile</h2>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="txtname">Name</label>
+                    <input type="text" id="txtname" name="txtname" pattern="^[A-Z]+[a-zA-Z ]*$" 
+                        title="Only alphabets & spaces allowed. First letter must be capital." 
+                        value="{{ artist.artist_name }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="txtemail">Email</label>
+                    <input type="email" id="txtemail" name="txtemail" value="{{ artist.artist_email }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="txtcontact">Contact</label>
+                    <input type="text" id="txtcontact" name="txtcontact" pattern="[7-9]{1}[0-9]{9}"
+                        title="Phone number must start with 7-9 and have 10 digits total."
+                        value="{{ artist.artist_contact }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="txtaddress">Address</label>
+                    <textarea id="txtaddress" name="txtaddress" rows="2" required>{{ artist.artist_address }}</textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">Edit</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
+{% endblock %}

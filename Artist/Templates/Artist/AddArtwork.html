@@ -1,0 +1,241 @@
+{% extends 'Artist/header.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Artwork</title>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 30px 0;
+            text-align: center;
+        }
+        .page-title {
+            font-size: 30px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn-success {
+            background: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s ease-in-out;
+        }
+        .btn-success:hover {
+            background: #219150;
+        }
+        .artwork-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+            position: relative;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .artwork-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .artwork-details {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        .btn-auction {
+            background: #473ce7;
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .btn-auction:hover {
+            background: #462bc0;
+            color: white;
+        }
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .lightbox img {
+            max-width: 50%;
+            max-height: 50%;
+            border-radius: 10px;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .auction-cont{
+            font-size: 20px;
+            font-weight: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="page-title">Add Artwork</h2>
+    
+    <!-- Add Artwork Form -->
+    <div class="form-container">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table class="table table-borderless">
+                <tr>
+                    <td>Photo</td>
+                    <td><input type="file" name="txtphoto" class="form-control" required></td>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td><input type="text" name="txtname" class="form-control" required></td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td><input type="text" name="txtprice" class="form-control" required></td>
+                </tr>
+                <tr>
+                    <td>Category</td>
+                    <td>
+                        <select name="sel_category" class="form-control">
+                            <option value="">-- Select --</option>
+                            {% for i in category %}
+                                <option value="{{i.id}}">{{i.category_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td><textarea name="txtdescription" rows="3" class="form-control" required></textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit" class="btn-success" value="Add">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <h2 class="page-title" style="margin-top: 40px;">Added Artworks</h2>
+    
+    <!-- Display Added Artworks -->
+    <div class="artwork-grid">
+        {% for i in artwork %}
+        <div class="card">
+            <img src="{{ i.artwork_photo.url }}" class="artwork-img" alt="Artwork" onclick="openLightbox('{{ i.artwork_photo.url }}')">
+            <div class="artwork-details">
+                <p><strong>Name:</strong> {{ i.artwork_name }}</p>
+                <p><strong>Price:</strong> Rs: {{ i.artwork_price }}</p>
+                <p><strong>Description:</strong> {{ i.artwork_description }}</p>
+                <p><strong>Category:</strong> {{ i.category.category_name }}</p>
+                {% if i.artwork_status == 0 %}
+                <a href="{% url 'Artist:delartwork' i.id %}" class="btn-danger" onclick="return confirm('Are you sure you want to delete this artwork?');">Delete</a>
+                <a href="{% url 'Artist:addtoauction' i.id %}" class="btn-auction">Add To Auction</a>
+                {% elif i.artwork_status == 2 %} <span class="auction-cont">Add For Auction</span> {% else %} <span class="auction-cont">Sold Out</span> {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Lightbox for Enlarged Image -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="Enlarged Artwork">
+</div>
+
+<script>
+    function openLightbox(imageSrc) {
+        document.getElementById('lightbox-img').src = imageSrc;
+        document.getElementById('lightbox').style.display = "flex";
+    }
+    function closeLightbox() {
+        document.getElementById('lightbox').style.display = "none";
+    }
+</script>
+
+</body>
+</html>
+
+{% endblock %}
