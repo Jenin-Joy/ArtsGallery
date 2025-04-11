@@ -95,7 +95,7 @@
                     {% if i.auction.auctionhead_status == 3 %}
                         <span class="status-completed">Payment Completed</span>
                     {% else %}
-                        <span class="status-pending">Auction Completed</span>
+                        <span class="status-pending">Auction Completed</span> | <a href="{% url 'User:auctionpayment' i.id %}">Payment</a>
                     {% endif %}
                 </td>
                 <td>
