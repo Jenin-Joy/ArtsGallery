@@ -86,3 +86,43 @@ def orderupdation(request, id, status):
 def myorder(request):
      book = tbl_booking.objects.filter(booking_status__gt=2,deliveryboy=request.session["did"])
      return render(request,"DeliveryBoy/MyOrder.html",{'book':book})
+
+def viewauctions(request):
+    delivery = tbl_deliveryboy.objects.get(id=request.session["did"])
+    auctions = tbl_auctionhead.objects.filter(
+        auctionhead_status=3,  # Completed auctions
+        artwork__artist__place=delivery.place.id,  # Same place as delivery boy
+        deliveryboy=None  # Not yet assigned to any delivery boy
+    )
+    return render(request, "DeliveryBoy/ViewAuctions.html", {'auctions': auctions})
+
+def acceptauction(request, id):
+    auction = tbl_auctionhead.objects.get(id=id)
+    if auction.deliveryboy is None:
+        auction.deliveryboy = tbl_deliveryboy.objects.get(id=request.session["did"])
+        auction.save()
+    return redirect("DeliveryBoy:dhomepage")
+
+def myauctions(request):
+    auctions = tbl_auctionhead.objects.filter(
+        deliveryboy=request.session["did"],
+        auctionhead_status=3  # Payment completed
+    ).select_related('artwork__artist__place')
+    
+    # Create a list with auction and winner information
+    auction_data = []
+    for auction in auctions:
+        winner = auction.tbl_auctionbody_set.filter(auctionbody_status=1).last()
+        if winner:
+            auction_data.append({
+                'auction': auction,
+                'winner': winner.user
+            })
+    
+    return render(request, "DeliveryBoy/MyAuctions.html", {'auctions': auction_data})
+
+def auctiondeliveryupdate(request, id, status):
+    auction = tbl_auctionhead.objects.get(id=id)
+    auction.deliveryboy_status = status
+    auction.save()
+    return redirect("DeliveryBoy:myauctions")

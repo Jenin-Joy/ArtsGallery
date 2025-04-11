@@ -93,6 +93,19 @@
             background: #e63946;
         }
 
+        /* Chat Link */
+        .chat-link {
+            color: #4a90e2;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .chat-link:hover {
+            color: #2c6cb9;
+            text-decoration: underline;
+        }
+
         /* Event Booking Section */
         .event-card {
             background: white;
@@ -108,25 +121,26 @@
 <div class="container booking-container">
     <!-- My Artwork Booking Section -->
     <h2 class="page-title">My Artwork Booking</h2>
-    
+
     {% for i in booking %}
     <div class="card">
-        
+
         <div class="booking-details">
             <h3>{{ i.artwork.artist.artist_name }}</h3>
             <p><strong>Date:</strong> {{ i.booking_date }}</p>
-            <p><strong>Status:</strong> 
+            <p><strong>Status:</strong>
                 {% if i.booking_status == 1 %}
-                    <span style="color: green;">Paid</span>
+                    <span style="color: green;">Paid</span> | <a href="{% url 'User:chatpage' i.artwork.artist.id %}" class="chat-link">Chat with Artist</a>
                 {% elif i.booking_status == 2 %}
-                    <span class="status paid">Order Packed</span>
+                    <span class="status paid">Order Packed</span> | <a href="{% url 'User:chatpage' i.artwork.artist.id %}" class="chat-link">Chat with Artist</a>
                 {% elif i.booking_status == 3 %}
-                    <span class="status paid">Order Collected</span>
+                    <span class="status paid">Order Collected</span> | <a href="{% url 'User:chatpage' i.artwork.artist.id %}" class="chat-link">Chat with Artist</a>
                 {% elif i.booking_status == 4 %}
                     <span class="status paid">Order Completed</span> | <a href="{% url 'User:rating' i.artwork.artist.id %}">Give Rating</a>
                 {% else %}
                     <a href="{% url 'User:payment' i.id %}" class="pay-btn">Pay Now</a>
                 {% endif %}
+                <a href="{% url 'User:rating' i.artwork.artist.id %}">Give Rating</a> | <a href="{% url 'User:chatpage' i.artwork.artist.id %}" class="chat-link">Chat with Artist</a>
             </p>
         </div>
         <img src="{{ i.artwork.artwork_photo.url }}" class="artwork-img" alt="Artwork Image">
@@ -135,13 +149,13 @@
 
     <!-- Event Booking Section -->
     <h2 class="page-title">View Event Booking</h2>
-    
+
     {% for i in data %}
     <div class="event-card">
         <div class="booking-details">
             <h3>Event Date: {{ i.booking_date }}</h3>
             <p><strong>Amount:</strong> Rs: {{ i.booking_totalamount }}</p>
-            <p><strong>Status:</strong> 
+            <p><strong>Status:</strong>
                 {% if i.booking_status == 1 %}
                     <span style="color: green;">Paid</span> | <a href="{% url 'User:tickets' i.id %}">View Tickets</a>
                 {% elif i.booking_status == 2 %}

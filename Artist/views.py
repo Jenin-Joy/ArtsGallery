@@ -136,11 +136,11 @@ def ajaxchat(request):
 def ajaxchatview(request):
     tid = request.GET.get("tid")
     artist = tbl_artist.objects.get(id=request.session["aid"])
-    chat_data = tbl_chat.objects.filter((Q(artist_from=artist) | Q(artist_to=artist)) & (Q(artist_from=tid) | Q(user_to=tid))).order_by('chat_time')
+    chat_data = tbl_chat.objects.filter((Q(artist_from=artist) | Q(artist_to=artist)) & (Q(user_from=tid) | Q(user_to=tid))).order_by('chat_time')
     return render(request,"Artist/ChatView.html",{"data":chat_data,"tid":int(tid)})
 
 def clearchat(request):
-    tbl_chat.objects.filter(Q(artist_from=request.session["aid"]) & Q(user_to=request.GET.get("tid")) | (Q(user_to=request.GET.get("tid")) & Q(artist_from=request.session["aid"]))).delete()
+    tbl_chat.objects.filter(Q(artist_from=request.session["aid"]) & Q(user_to=request.GET.get("tid")) | (Q(user_from=request.GET.get("tid")) & Q(artist_to=request.session["aid"]))).delete()
     return render(request,"Artist/ClearChat.html",{"msg":"Chat Deleted Sucessfully...."})
 
 def chatlist(request):
@@ -298,8 +298,16 @@ def auctionupdation(request, id, status):
     return redirect('Artist:auctionlist')
 
 def completedauction(request):
-    auction = tbl_auctionhead.objects.filter(artwork__artist=request.session["aid"],auctionhead_status__gt=2)
+    auction = tbl_auctionhead.objects.filter(
+        artwork__artist=request.session["aid"],
+        auctionhead_status__gt=2
+    ).select_related(
+        'deliveryboy',  # Include delivery boy details
+        'artwork__artist'
+    )
     for i in auction:
         aucbody = tbl_auctionbody.objects.get(auction=i.id, auctionbody_status=1)
         i.user = aucbody.user.user_name
-    return render(request,"Artist/CompletedAuction.html",{"auction":auction})
+    return render(request, "Artist/CompletedAuction.html", {"auction": auction})
+
+# Removed assign_deliveryboy and assign_deliveryboy_action functions

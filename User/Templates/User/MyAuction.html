@@ -5,83 +5,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auction Details</title>
+    <title>My Auctions</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             margin: 0;
-            padding: 0;
+            padding: 20px;
         }
-
-        .heading {
-            color: black;
-            text-align: center;
-            padding: 15px 0;
-        }
-
-        h1 {
-            font-size: 2rem;
-            margin: 0;
-        }
-
         table {
-            width: 90%;
-            margin: 20px auto;
+            width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
             background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
-
-        th, td {
-            padding: 12px;
-            text-align: center;
-            border: 1px solid #ddd;
-        }
-
         th {
-            background-color: #f2f2f2;
-            color: #333;
-            font-weight: bold;
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: left;
         }
-
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
         td img {
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
-        td a {
-            text-decoration: none;
-            color: #4CAF50;
-            font-weight: bold;
+        /* New styles for delivery status */
+        .status {
             padding: 5px 10px;
             border-radius: 4px;
-            background-color: #f9f9f9;
-            border: 1px solid #4CAF50;
-            transition: background-color 0.3s ease;
+            font-weight: bold;
+            display: inline-block;
         }
-
-        td a:hover {
-            background-color: #4CAF50;
+        .status.pending {
+            background-color: #ffc107;
+            color: black;
+        }
+        .status.collected {
+            background-color: #17a2b8;
             color: white;
         }
-
-        .status-completed {
-            color: #4CAF50;
-            font-weight: bold;
+        .status.delivered {
+            background-color: #28a745;
+            color: white;
         }
-
-        .status-pending {
-            color: #f44336;
-            font-weight: bold;
-        }
-
-        .no-auction {
-            color: #f44336;
-            font-style: italic;
-            text-align: center;
-            padding: 20px;
+        .delivery-info {
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #666;
         }
     </style>
 </head>
@@ -100,6 +78,7 @@
                 <th>Artist</th>
                 <th>Bid Amount</th>
                 <th>Status</th>
+                <th>Delivery Details</th>
             </tr>
         </thead>
         <tbody>
@@ -116,14 +95,26 @@
                     {% if i.auction.auctionhead_status == 3 %}
                         <span class="status-completed">Payment Completed</span>
                     {% else %}
-                        <span class="status-pending">Auction Completed</span> |
-                        <a href="{% url 'User:auctionpayment' i.id %}">Payment</a>
+                        <span class="status-pending">Auction Completed</span>
                     {% endif %}
                 </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="8" class="no-auction">No auctions available at the moment.</td>
+                <td>
+                    {% if i.auction.deliveryboy %}
+                        {% if i.auction.deliveryboy_status == 0 %}
+                            <span class="status pending">Pending Pickup</span>
+                        {% elif i.auction.deliveryboy_status == 1 %}
+                            <span class="status collected">Order Collected</span>
+                        {% elif i.auction.deliveryboy_status == 2 %}
+                            <span class="status delivered">Order Delivered</span>
+                        {% endif %}
+                        <div class="delivery-info">
+                            <strong>Agent:</strong> {{i.auction.deliveryboy.deliveryboy_name}}<br>
+                            <strong>Contact:</strong> {{i.auction.deliveryboy.deliveryboy_contact}}
+                        </div>
+                    {% else %}
+                        <span class="status pending">Delivery Not Assigned</span>
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>

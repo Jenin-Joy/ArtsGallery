@@ -26,6 +26,8 @@
             border-collapse: collapse;
             border: 1px solid #ddd;
             background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         /* Style table headers */
@@ -47,12 +49,6 @@
         /* Hover effect for rows */
         tr:hover {
             background-color: #f1f1f1;
-        }
-
-        /* Add a border radius to the table */
-        table {
-            border-radius: 8px;
-            overflow: hidden;
         }
 
         /* Style the image inside the table */
@@ -82,15 +78,23 @@
             border-radius: 10px;
         }
 
-        /* Make the page responsive */
-        @media screen and (max-width: 768px) {
-            table {
-                font-size: 14px;
-            }
-
-            td, th {
-                padding: 8px;
-            }
+        /* New styles for delivery status */
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .status.pending {
+            background-color: #ffc107;
+            color: black;
+        }
+        .status.collected {
+            background-color: #17a2b8;
+            color: white;
+        }
+        .status.delivered {
+            background-color: #28a745;
+            color: white;
         }
     </style>
 </head>
@@ -106,7 +110,8 @@
                 <th>Start Time</th>
                 <th>User</th>
                 <th>Total Amount</th>
-                <th>Action</th>
+                <th>Delivery Status</th>
+                <th>Delivery Agent</th>
             </tr>
             {% for i in auction %}
             <tr>
@@ -117,7 +122,27 @@
                 <td>{{i.auction_starttime}}</td>
                 <td>{{i.user}}</td>
                 <td>{{i.auction_totalamount}}</td>
-                <td>Payment Completed</td>
+                <td>
+                    {% if i.deliveryboy %}
+                        {% if i.deliveryboy_status == 0 %}
+                            <span class="status pending">Pending Pickup</span>
+                        {% elif i.deliveryboy_status == 1 %}
+                            <span class="status collected">Order Collected</span>
+                        {% elif i.deliveryboy_status == 2 %}
+                            <span class="status delivered">Order Delivered</span>
+                        {% endif %}
+                    {% else %}
+                        <span class="status pending">Not Assigned</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if i.deliveryboy %}
+                        {{i.deliveryboy.deliveryboy_name}}<br>
+                        <small>{{i.deliveryboy.deliveryboy_contact}}</small>
+                    {% else %}
+                        Not Assigned
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </table>

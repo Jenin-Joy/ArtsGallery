@@ -59,6 +59,21 @@
         .not-paid { background: #dc3545; color: white; }
         .cancelled { background: #6c757d; color: white; }
 
+        /* Chat Link */
+        .chat-link {
+            display: inline-block;
+            color: #4a90e2;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .chat-link:hover {
+            color: #2c6cb9;
+            text-decoration: underline;
+        }
+
         /* Modal for Enlarged Image */
         .modal {
             display: none;
@@ -92,10 +107,10 @@
     {% for i in viewbooking %}
     <div class="booking-card">
         <div class="booking-details">
-            <p><strong>User:</strong> {{ i.user.user_name }}</p>
+            <p><strong>User:</strong> {{ i.user.user_name }} <a href="{% url 'Artist:chatpage' i.user.id %}" class="chat-link">💬 Chat with User</a></p>
             <p><strong>Address:</strong> {{ i.user.user_address }}</p>
             <p><strong>Date:</strong> {{ i.booking_date }}</p>
-            <p><strong>Status:</strong> 
+            <p><strong>Status:</strong>
                 {% if i.booking_status == 1 %}
                     <span class="status paid">Paid</span> | <a href="{% url 'Artist:orderupdation' i.id 2 %}">Order Packed</a>
                 {% elif i.booking_status == 2 %}
@@ -119,7 +134,7 @@
         <div class="booking-details">
             <h3>Event Date: {{ i.booking_date }}</h3>
             <p><strong>Amount:</strong> Rs: {{ i.booking_totalamount }}</p>
-            <p><strong>Status:</strong> 
+            <p><strong>Status:</strong>
                 {% if i.booking_status == 1 %}
                     <span style="color: green;">Paid</span> | <a href="{% url 'Artist:tickets' i.id %}">View Tickets</a>
                 {% elif i.booking_status == 2 %}

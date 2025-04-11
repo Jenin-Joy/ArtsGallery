@@ -14,6 +14,10 @@ urlpatterns=[
         path('orderupdation/<int:id>/<int:status>',views.orderupdation,name="orderupdation"),
         path('myorder/',views.myorder,name="myorder"),
 
+        path('viewauctions/', views.viewauctions, name="viewauctions"),
+        path('acceptauction/<int:id>/', views.acceptauction, name="acceptauction"),
+        path('myauctions/', views.myauctions, name="myauctions"),
+        path('auctiondeliveryupdate/<int:id>/<int:status>', views.auctiondeliveryupdate, name="auctiondeliveryupdate"),
 
 
 

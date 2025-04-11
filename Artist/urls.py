@@ -42,5 +42,7 @@ urlpatterns = [
     path('auctionlist/', views.auctionlist , name='auctionlist'),
     path('auctionupdation/<int:id>/<int:status>', views.auctionupdation , name='auctionupdation'),
     path('completedauction/', views.completedauction , name='completedauction'),
+    # path('assign_deliveryboy/<int:id>/', views.assign_deliveryboy, name='assign_deliveryboy'),
+    # path('assign_deliveryboy_action/<int:auction_id>/<int:delivery_id>/', views.assign_deliveryboy_action, name='assign_deliveryboy_action'),
 
 ]

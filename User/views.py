@@ -365,7 +365,7 @@ def ajaxchatview(request):
     return render(request,"User/ChatView.html",{"data":chat_data,"tid":int(tid)})
 
 def clearchat(request):
-    tbl_chat.objects.filter(Q(user_from=request.session["uid"]) & Q(user_to=request.GET.get("tid")) | (Q(artist_to=request.GET.get("tid")) & Q(artist_from=request.session["aid"]))).delete()
+    tbl_chat.objects.filter(Q(user_from=request.session["uid"]) & Q(artist_to=request.GET.get("tid")) | (Q(artist_from=request.GET.get("tid")) & Q(user_to=request.session["uid"]))).delete()
     return render(request,"User/ClearChat.html",{"msg":"Chat Deleted Sucessfully...."})
 
 def viewauctionlist(request):
@@ -464,8 +464,14 @@ def ajaxgettimmer(request):
         return JsonResponse({"time": time(0, 0, 30), "time_up": False})
 
 def myauction(request):
-    auction = tbl_auctionbody.objects.filter(user=request.session["uid"],auctionbody_status=1)
-    return render(request,"User/MyAuction.html",{'auction':auction})
+    auction = tbl_auctionbody.objects.filter(
+        user=request.session["uid"],
+        auctionbody_status=1
+    ).select_related(
+        'auction__deliveryboy',  # Include delivery boy details
+        'auction__artwork__artist'
+    )
+    return render(request, "User/MyAuction.html", {'auction': auction})
 
 def auctionpayment(request, id):
     auction = tbl_auctionbody.objects.get(id=id)

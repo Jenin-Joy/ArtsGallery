@@ -1,0 +1,170 @@
+{% extends 'DeliveryBoy/header.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Auctions</title>
+    <style>
+        .booking-card {
+            border: 1px solid #ddd;
+            margin: 15px;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .booking-details {
+            flex: 1;
+        }
+
+        .booking-img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: inline-block;
+            margin: 5px 0;
+        }
+
+        .assigned {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .details-section {
+            border: 1px solid #eee;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .details-section h4 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        .amount {
+            font-size: 1.2em;
+            color: #2196F3;
+            font-weight: bold;
+        }
+
+        .status.pending {
+            background-color: #ffc107;
+            color: black;
+        }
+        
+        .status.collected {
+            background-color: #17a2b8;
+            color: white;
+        }
+        
+        .status.delivered {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-action {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+        
+        .btn-action:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>My Assigned Auction Deliveries</h2>
+        
+        {% for i in auctions %}
+        <div class="booking-card">
+            <div class="booking-details">
+                <div class="details-grid">
+                    <div class="details-section">
+                        <h4>Artist Details</h4>
+                        <p><strong>Name:</strong> {{ i.auction.artwork.artist.artist_name }}</p>
+                        <p><strong>Contact:</strong> {{ i.auction.artwork.artist.artist_contact }}</p>
+                        <p><strong>Address:</strong> {{ i.auction.artwork.artist.artist_address }}</p>
+                        <p><strong>Location:</strong> {{ i.auction.artwork.artist.place.place_name }}</p>
+                    </div>
+                    <div class="details-section">
+                        <h4>Winner Details</h4>
+                        <p><strong>Name:</strong> {{ i.winner.user_name }}</p>
+                        <p><strong>Contact:</strong> {{ i.winner.user_contact }}</p>
+                        <p><strong>Address:</strong> {{ i.winner.user_address }}</p>
+                        <p><strong>Location:</strong> {{ i.winner.place.place_name }}</p>
+                    </div>
+                </div>
+                
+                <p><strong>Artwork Name:</strong> {{ i.auction.artwork.artwork_name }}</p>
+                <p><strong>Amount:</strong> <span class="amount">₹{{ i.auction.auction_totalamount }}</span></p>
+                <p><strong>Status:</strong> 
+                    {% if i.auction.deliveryboy_status == 0 %}
+                        <span class="status pending">Pending</span> | 
+                        <a href="{% url 'DeliveryBoy:auctiondeliveryupdate' i.auction.id 1 %}" class="btn-action">Mark as Collected</a>
+                    {% elif i.auction.deliveryboy_status == 1 %}
+                        <span class="status collected">Order Collected</span> | 
+                        <a href="{% url 'DeliveryBoy:auctiondeliveryupdate' i.auction.id 2 %}" class="btn-action">Mark as Delivered</a>
+                    {% else %}
+                        <span class="status delivered">Order Delivered</span>
+                    {% endif %}
+                </p>
+            </div>
+            <img src="{{ i.auction.artwork.artwork_photo.url }}" class="booking-img" onclick="openModal('{{ i.auction.artwork.artwork_photo.url }}')">
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImg">
+    </div>
+
+    <script>
+        function openModal(imgUrl) {
+            var modal = document.getElementById("imageModal");
+            var modalImg = document.getElementById("modalImg");
+            modal.style.display = "block";
+            modalImg.src = imgUrl;
+        }
+
+        var span = document.getElementsByClassName("close")[0];
+        span.onclick = function() { 
+            document.getElementById("imageModal").style.display = "none";
+        }
+    </script>
+</body>
+</html>
+{% endblock %}
+
+
+

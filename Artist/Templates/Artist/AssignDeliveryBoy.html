@@ -1,0 +1,80 @@
+{% extends 'Artist/Header.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign Delivery Boy</title>
+    <style>
+        .delivery-boy-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .delivery-boy-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 20px;
+            object-fit: cover;
+        }
+
+        .delivery-boy-info {
+            flex-grow: 1;
+        }
+
+        .assign-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .assign-button:hover {
+            background-color: #45a049;
+        }
+
+        .no-delivery-boys {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Assign Delivery Boy for Auction #{{auction.id}}</h2>
+        
+        {% if delivery_boys %}
+            {% for boy in delivery_boys %}
+            <div class="delivery-boy-card">
+                <img src="{{ boy.deliveryboy_photo.url }}" alt="Delivery Boy Photo" class="delivery-boy-photo">
+                <div class="delivery-boy-info">
+                    <h3>{{ boy.deliveryboy_name }}</h3>
+                    <p>Contact: {{ boy.deliveryboy_contact }}</p>
+                    <p>Location: {{ boy.place.place_name }}, {{ boy.place.district.district_name }}</p>
+                </div>
+                <a href="{% url 'Artist:assign_deliveryboy_action' auction.id boy.id %}" class="assign-button">
+                    Assign
+                </a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-delivery-boys">
+                No delivery boys available in your area.
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+{% endblock %}

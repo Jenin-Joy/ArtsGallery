@@ -22,3 +22,5 @@ class tbl_auctionhead(models.Model):
         auction_starttime = models.CharField(max_length=30)
         auctionhead_status = models.IntegerField(default=0)
         auction_totalamount = models.CharField(max_length=30)
+        deliveryboy = models.ForeignKey(tbl_deliveryboy, on_delete=models.CASCADE, null=True)
+        deliveryboy_status = models.IntegerField(default=0)

@@ -1,0 +1,75 @@
+{% extends 'DeliveryBoy/header.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Auctions</title>
+    <style>
+        .booking-card {
+            border: 1px solid #ddd;
+            margin: 15px;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .booking-details {
+            flex: 1;
+        }
+
+        .booking-img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .paid {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        a {
+            color: #2196F3;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    {% for i in auctions %}
+    <div class="booking-card">
+        <div class="booking-details">
+            <p><strong>Artist:</strong> {{ i.artwork.artist.artist_name }}</p>
+            <p><strong>Address:</strong> {{ i.artwork.artist.artist_address }}</p>
+            <p><strong>Winner:</strong> {{ i.auctionbody_set.last.user.user_name }}</p>
+            <p><strong>Winner Address:</strong> {{ i.auctionbody_set.last.user.user_address }}</p>
+            <p><strong>Amount:</strong> {{ i.auction_totalamount }}</p>
+            <p><strong>Status:</strong> 
+                <span class="status paid">Payment Completed</span> | 
+                <a href="{% url 'DeliveryBoy:acceptauction' i.id %}">Accept Delivery</a>
+            </p>
+        </div>
+        <img src="{{ i.artwork.artwork_photo.url }}" class="booking-img" onclick="openModal('{{ i.artwork.artwork_photo.url }}')">
+    </div>
+    {% endfor %}
+</body>
+</html>
+{% endblock %}
